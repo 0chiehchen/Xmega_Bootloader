@@ -75,7 +75,7 @@ int main(void)
     unsigned int doExit = 0;
     unsigned int doCount = 0;
     unsigned int bootToApp = 1;	// default boot to app intead of into bootloader
-    do () {
+    do {
 	    __builtin_avr_delay_cycles(255);
 	    doCount++;
 	    val = recchar();
