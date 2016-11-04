@@ -269,7 +269,7 @@ int main(void)
                 sendchar(RESPONSE_OKAY);                      // Answer OK
                 while (!(Uart(MY_UART).STATUS & (1 << USART_TXCIF_bp)));
                 SP_WaitForSPM();
-                CCP_RST();                                    // Reset
+                //CCP_RST();                                    // Reset
             }
 
             else if (val == COMMAND_READ_PROGTYPE)            // Get programmer type
