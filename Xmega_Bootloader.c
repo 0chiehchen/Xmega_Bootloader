@@ -79,14 +79,12 @@ int main(void)
 	    __builtin_avr_delay_cycles(255);
 	    doCount++;
 	    if (doCount > 20000) doExit = 1; // 20000 ~ 4-5 secounds
-	    val = 0;
 	    if ( (!(Uart(MY_UART).STATUS & USART_RXCIF_bm)) == 0 ) { // got data
 	    	val = Uart(MY_UART).DATA;
 	    }
 	    if (val == 'U') {
 		    bootToApp = 0;
-		    doExit = 1;
-		    val = 0;
+		    //doExit = 1;
 	    }
     } while (!doExit);
 
