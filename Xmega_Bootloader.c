@@ -73,19 +73,19 @@ int main(void)
 
     // --- IEEE BOOTLOADER STARTUP CHECK --- //
     unsigned int doExit = 0;
-    unsigned int doCount = 0;
+    unsigned int doCount = 20000; // 20000 ~ 4-5 secounds
     unsigned int bootToApp = 1;	// default boot to app intead of bootloader
     do {
 	    __builtin_avr_delay_cycles(255);
-	    doCount++;
-	    if (doCount > 20000) doExit = 1; // 20000 ~ 4-5 secounds
+	    doCount--;
+	    if (doCount <= 0) doExit = 1;
 	    if ( (!(Uart(MY_UART).STATUS & USART_RXCIF_bm)) == 0 ) { // got data
 	    	val = Uart(MY_UART).DATA;
 	    }
 	    if (val == 'U') {
 		    bootToApp = 0;
 		    //doExit = 1;
-		    doCount = 0;	// reset count
+		    doCount = 60000;	// count reset to higher value
 	    }
     } while (!doExit);
 
