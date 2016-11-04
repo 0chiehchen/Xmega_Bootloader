@@ -24,7 +24,7 @@ void BlockRead(unsigned int size, unsigned char mem, ADDR_T *address);
 int main(void)
 {
     void (*funcptr)( void ) = 0x0000; // Set up function pointer to RESET vector.
-    Port(ENTER_BOOTLOADER_PIN).Pin_control(ENTER_BOOTLOADER_PIN) = PORT_OPC_PULLUP_gc;
+//    Port(ENTER_BOOTLOADER_PIN).Pin_control(ENTER_BOOTLOADER_PIN) = PORT_OPC_PULLUP_gc;
 
     //This delay allows the pull-up resistor sufficient time to pull high.
     //Realistically it only needs to be ~1uS, so waiting 5 cycles @ 2MHz
@@ -74,7 +74,7 @@ int main(void)
     // --- IEEE BOOTLOADER STARTUP CHECK --- //
     unsigned int doExit = 0;
     unsigned int doCount = 0;
-    unsigned int bootToApp = 1;	// default boot to app intead of into bootloader
+    unsigned int bootToApp = 1;	// default boot to app intead of bootloader
     do {
 	    __builtin_avr_delay_cycles(255);
 	    doCount++;
@@ -86,6 +86,7 @@ int main(void)
 	    if (val == 'U') {
 		    bootToApp = 0;
 		    doExit = 1;
+		    val = 0;
 	    }
     } while (!doExit);
 
