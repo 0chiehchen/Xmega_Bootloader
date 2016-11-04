@@ -31,7 +31,9 @@ int main(void)
     //will be a 2.5uS delay.
     __builtin_avr_delay_cycles(5);
 
+
     /* Branch to bootloader or application code? */
+/*
 #if (BOOTLOADER_PIN_EN == 0)
     //Active low pin
     if( !(Port(ENTER_BOOTLOADER_PIN).IN & (1<<Pin(ENTER_BOOTLOADER_PIN))) ) {
@@ -41,6 +43,8 @@ int main(void)
 #else
     #error Invalid value for BOOTLOADER_PIN_EN
 #endif
+*/
+
         // Check to see if the SPM lock bit is still set. Reset to clear the lock
         // bit while hopefully still hitting the bootloader entry condition.
         if(NVM.CTRLB & NVM_SPMLOCK_bm) {
@@ -65,7 +69,31 @@ int main(void)
     #endif
 */
 
-        initbootuart();                                       // Initialize UART.
+    initbootuart();                                       // Initialize UART.
+
+    // --- IEEE BOOTLOADER STARTUP CHECK --- //
+    unsigned int doExit = 0;
+    unsigned int doCount = 0;
+    unsigned int bootToApp = 1;	// default boot to app intead of into bootloader
+    do () {
+	    __builtin_avr_delay_cycles(255);
+	    doCount++;
+	    val = recchar();
+	    if (val == 'U') {
+		    bootToApp = 0;
+		    doExit = 1;
+		    sendchar(RESPONSE_OKAY); 
+		    sendchar('>');
+		    sendchar(RESPONSE_OKAY); 
+	    }
+	    if (doCount > 1000) doExit = 1;
+    } while (!doExit);
+
+    if (!bootToApp) {	// if not bootToApp, then boot to bootloader here:
+
+	sendchar(RESPONSE_OKAY); 
+	sendchar('>');
+	sendchar(RESPONSE_OKAY); 
 
         for(;;) {
             val = recchar();                                  // Wait for command character.
