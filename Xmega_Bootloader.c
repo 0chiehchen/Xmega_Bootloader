@@ -86,13 +86,13 @@ int main(void)
 		    bootToApp = 0;
 		    //doExit = 1;
 		    doCount = 60000;	// count reset to higher value
+		    sendchar(RESPONSE_OKAY);	// send OKAY first 
 	    }
     } while (!doExit);
 
     if (!bootToApp) {	// if not bootToApp, then boot to bootloader here:
 
 	// IEEE BOOTLOADER defined return:
-	sendchar(RESPONSE_OKAY); 
 	sendchar('>');
 
         for(;;) {
