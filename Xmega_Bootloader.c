@@ -86,8 +86,6 @@ int main(void)
 	    if (val == 'U') {
 		    bootToApp = 0;
 		    doExit = 1;
-		    sendchar(RESPONSE_OKAY); 
-		    sendchar('>');
 	    }
     } while (!doExit);
 
@@ -96,7 +94,6 @@ int main(void)
 	// IEEE BOOTLOADER defined return:
 	sendchar(RESPONSE_OKAY); 
 	sendchar('>');
-	sendchar(RESPONSE_OKAY); 
 
         for(;;) {
             val = recchar();                                  // Wait for command character.
@@ -104,6 +101,7 @@ int main(void)
             if(val == COMMAND_CHECK_AUTOINC)                  // Check autoincrement status.
                 sendchar(RESPONSE_YES);                       // Yes, we do autoincrement.
 
+	    /*
 	    else if(val == 'G') {	// go to App code
 		Uart(MY_UART).STATUS = (1 << USART_TXCIF_bp); // Clear flag
                 sendchar(RESPONSE_OKAY);                      // Answer OK
@@ -115,6 +113,7 @@ int main(void)
         	EIND = 0x00;
         	funcptr();                                            // Jump to application section.
             }
+	    */
 
             else if(val == COMMAND_SET_ADDRESS) {             // Set address (words, not bytes)
                 address = (recchar() << 8) | recchar();
