@@ -84,8 +84,8 @@ int main(void)
 	    }
 	    if (val == 'U') {
 		    bootToApp = 0;
-		    //doExit = 1;
-		    doCount = 60000;	// count reset to higher value
+		    doExit = 1;
+		    //doCount = 60000;	// count reset to higher value
 		    sendchar(RESPONSE_OKAY);	// send OKAY first 
 	    }
     } while (!doExit);
