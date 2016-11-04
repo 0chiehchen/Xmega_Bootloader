@@ -85,6 +85,7 @@ int main(void)
 	    if (val == 'U') {
 		    bootToApp = 0;
 		    //doExit = 1;
+		    doCount = 0;	// reset count
 	    }
     } while (!doExit);
 
