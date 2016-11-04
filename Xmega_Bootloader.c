@@ -78,6 +78,7 @@ int main(void)
     do {
 	    __builtin_avr_delay_cycles(255);
 	    doCount++;
+	    if (doCount > 20000) doExit = 1; // 20000 ~ 4-5 secounds
 	    val = 0;
 	    if ( (!(Uart(MY_UART).STATUS & USART_RXCIF_bm)) == 0 ) { // got data
 	    	val = Uart(MY_UART).DATA;
@@ -87,13 +88,12 @@ int main(void)
 		    doExit = 1;
 		    sendchar(RESPONSE_OKAY); 
 		    sendchar('>');
-		    sendchar(RESPONSE_OKAY); 
 	    }
-	    if (doCount > 20000) doExit = 1;
     } while (!doExit);
 
     if (!bootToApp) {	// if not bootToApp, then boot to bootloader here:
 
+	// IEEE BOOTLOADER defined return:
 	sendchar(RESPONSE_OKAY); 
 	sendchar('>');
 	sendchar(RESPONSE_OKAY); 
@@ -103,6 +103,18 @@ int main(void)
 
             if(val == COMMAND_CHECK_AUTOINC)                  // Check autoincrement status.
                 sendchar(RESPONSE_YES);                       // Yes, we do autoincrement.
+
+	    else if(val == 'G') {	// go to App code
+		Uart(MY_UART).STATUS = (1 << USART_TXCIF_bp); // Clear flag
+                sendchar(RESPONSE_OKAY);                      // Answer OK
+		sendchar('G');
+		sendchar('+');
+                while (!(Uart(MY_UART).STATUS & (1 << USART_TXCIF_bp)));
+                SP_WaitForSPM();
+        	SP_LockSPM();                                         // Lock SPM
+        	EIND = 0x00;
+        	funcptr();                                            // Jump to application section.
+            }
 
             else if(val == COMMAND_SET_ADDRESS) {             // Set address (words, not bytes)
                 address = (recchar() << 8) | recchar();
