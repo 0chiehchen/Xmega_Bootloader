@@ -54,6 +54,7 @@ int main(void)
         EEPROM_FlushBuffer();
         EEPROM_DisableMapping();
 
+/*
         Port(LED_PIN).DIRSET = (1 << Pin(LED_PIN));           // Set the pin direction
     #if (LED_ON == 1)
         Port(LED_PIN).OUTSET = (1 << Pin(LED_PIN));           // Turn on the LED
@@ -62,6 +63,7 @@ int main(void)
     #else
         #error Invalid value for LED_ON
     #endif
+*/
 
         initbootuart();                                       // Initialize UART.
 

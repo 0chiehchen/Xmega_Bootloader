@@ -6,3 +6,4 @@ Xmega_Bootloader.lss
 Xmega_Bootloader.map
 *.o
 *.d
+*.swp
