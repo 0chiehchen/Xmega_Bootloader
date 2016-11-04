@@ -78,7 +78,10 @@ int main(void)
     do {
 	    __builtin_avr_delay_cycles(255);
 	    doCount++;
-	    val = recchar();
+	    val = 0;
+	    if ( (!(Uart(MY_UART).STATUS & USART_RXCIF_bm)) == 0 ) { // got data
+	    	val = Uart(MY_UART).DATA;
+	    }
 	    if (val == 'U') {
 		    bootToApp = 0;
 		    doExit = 1;
@@ -86,7 +89,7 @@ int main(void)
 		    sendchar('>');
 		    sendchar(RESPONSE_OKAY); 
 	    }
-	    if (doCount > 1000) doExit = 1;
+	    if (doCount > 20000) doExit = 1;
     } while (!doExit);
 
     if (!bootToApp) {	// if not bootToApp, then boot to bootloader here:
