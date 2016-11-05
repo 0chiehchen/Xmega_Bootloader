@@ -264,12 +264,13 @@ int main(void)
                 sendchar(RESPONSE_OKAY);                      // Just answer OK
 
 
-            else if(val == COMMAND_EXIT_BOOTLOADER) {         // Exit bootloader
+            //else if(val == COMMAND_EXIT_BOOTLOADER) {         // Exit bootloader
+            else if(val == '^') {         // Exit bootloader
                 Uart(MY_UART).STATUS = (1 << USART_TXCIF_bp); // Clear flag
                 sendchar(RESPONSE_OKAY);                      // Answer OK
                 while (!(Uart(MY_UART).STATUS & (1 << USART_TXCIF_bp)));
                 SP_WaitForSPM();
-                //CCP_RST();                                    // Reset
+                CCP_RST();                                    // Reset
             }
 
             else if (val == COMMAND_READ_PROGTYPE)            // Get programmer type
