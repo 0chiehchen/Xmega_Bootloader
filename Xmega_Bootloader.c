@@ -101,7 +101,6 @@ int main(void)
             if(val == COMMAND_CHECK_AUTOINC)                  // Check autoincrement status.
                 sendchar(RESPONSE_YES);                       // Yes, we do autoincrement.
 
-	    /*
 	    else if(val == 'G') {	// go to App code
 		Uart(MY_UART).STATUS = (1 << USART_TXCIF_bp); // Clear flag
                 sendchar(RESPONSE_OKAY);                      // Answer OK
@@ -111,9 +110,9 @@ int main(void)
                 SP_WaitForSPM();
         	SP_LockSPM();                                         // Lock SPM
         	EIND = 0x00;
-        	funcptr();                                            // Jump to application section.
+// IEEE:  Do not jump:
+        	//funcptr();                                            // Jump to application section.
             }
-	    */
 
             else if(val == COMMAND_SET_ADDRESS) {             // Set address (words, not bytes)
                 address = (recchar() << 8) | recchar();
