@@ -84,14 +84,14 @@ int main(void)
 #ifdef __ICCAVR__
 #pragma diag_suppress=Pe1053 // Suppress warning for conversion from long-type address to flash ptr.
 #endif
-                    SP_EraseApplicationPage( address ); // Byte address, not word address
+                    //SP_EraseApplicationPage( address ); // Byte address, not word address
 #ifdef __ICCAVR__
 #pragma diag_default=Pe1053  // Back to default.
 #endif
                 }
 
-                EEPROM_LoadPage(&val);                        // Write random values to the page buffer
-                EEPROM_EraseAll();                            // Erasing all pages in the EEPROM
+                //EEPROM_LoadPage(&val);                        // Write random values to the page buffer
+                //EEPROM_EraseAll();                            // Erasing all pages in the EEPROM
                 sendchar(RESPONSE_OKAY);                      // Send OK
             }
 
