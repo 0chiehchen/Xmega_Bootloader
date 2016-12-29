@@ -72,8 +72,10 @@ int main(void)
     initbootuart();                                       // Initialize UART.
 
     // --- IEEE BOOTLOADER STARTUP CHECK --- //
+/*
     unsigned int doExit = 0;
     unsigned int doCount = 20000; // 20000 ~ 4-5 secounds
+
     unsigned int bootToApp = 1;	// default boot to app intead of bootloader
     do {
 	    __builtin_avr_delay_cycles(255);
@@ -91,6 +93,9 @@ int main(void)
     } while (!doExit);
 
     if (!bootToApp) {	// if not bootToApp, then boot to bootloader here:
+*/
+
+    if (1) { // boot to bootloader:
 
 	// IEEE BOOTLOADER defined return:
 	sendchar('>');
@@ -110,8 +115,7 @@ int main(void)
                 SP_WaitForSPM();
         	SP_LockSPM();                                         // Lock SPM
         	EIND = 0x00;
-// IEEE:  Do not jump:
-        	//funcptr();                                            // Jump to application section.
+        	funcptr();                                            // Jump to application section.
             }
 
             else if(val == COMMAND_SET_ADDRESS) {             // Set address (words, not bytes)
@@ -263,8 +267,7 @@ int main(void)
                 sendchar(RESPONSE_OKAY);                      // Just answer OK
 
 
-            //else if(val == COMMAND_EXIT_BOOTLOADER) {         // Exit bootloader
-            else if(val == '^') {         // Exit bootloader
+            else if(val == COMMAND_EXIT_BOOTLOADER) {         // Exit bootloader
                 Uart(MY_UART).STATUS = (1 << USART_TXCIF_bp); // Clear flag
                 sendchar(RESPONSE_OKAY);                      // Answer OK
                 while (!(Uart(MY_UART).STATUS & (1 << USART_TXCIF_bp)));
